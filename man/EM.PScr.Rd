@@ -25,6 +25,7 @@ distribution to be used for the concurrent causes:
 3 for negative binomial, 
 4 for bernoulli and 
 5 for polylogarithm (Gallardo et al. 2018).
+6 for Flory-Schulz (Azimi et al. 2022).
 }
   \item{dist}{
 distribution to be used for the time-to-event: 
@@ -48,6 +49,10 @@ The EM algorithm for the model is implemented as in Gallardo et al. (2017).
 \item{BIC}{the Bayesian (also known as Schwarz) information criterion}
 }
 \references{
+Azimi, R, Esmailian, M, Gallardo DI and Gomez HJ. (2022). A New Cure Rate Model Based on 
+Flory-Schulz Distribution: Application to the Cancer Data. Mathematics 
+10, 4643
+
 Gallardo DI, Gomez YM and De Castro M. (2018). A flexible cure rate model based on 
 the polylogarithm distribution. Journal of Statistical Computation and Simulation 
 88 (11), 2137-2149
@@ -61,7 +66,7 @@ on the EM algorithm for the power series cure rate model. Communications in
 Statistics-Simulation and Computation 46 (8), 6342-6359.
 }
 \author{
-Diego I. Gallardo
+Diego I. Gallardo and Reza Azimi
 }
 %\note{
 %%  ~~further notes~~
@@ -84,6 +89,8 @@ year2=ifelse(year=="1985-1989",0,1)
 z=t(model.matrix(~proph-1))
 #Computes the estimation for Poisson-Slash half-normal cure rate model
 EM.PScr(t, delta, z, model=1, dist=1)
+#Computes the estimation for Flory-Schulz-Slash half-normal cure rate model
+EM.PScr(t, delta, z, model=6, dist=1)
 }
 }
 

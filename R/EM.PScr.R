@@ -38,9 +38,9 @@ if(model==1 || model==4)
 {
 theta=exp(t(z)%*%beta)
 }
-if(model==2 || model==3 || model==5)
+if(model==2 || model==3 || model==5 || model==6)
 {
-theta=exp(t(z)%*%beta)/(1+exp(t(z)%*%beta))
+theta=plogis(t(z)%*%beta)
 }
 M<-c()
 if(model==1)
@@ -69,6 +69,11 @@ if(model==5)
 mu1=polyloga(theta*S,q-1)/polyloga(theta*S,q)-1
 mu2=polyloga(theta*S,q-2)/polyloga(theta*S,q)-2*polyloga(theta*S,q-1)/polyloga(theta*S,q)+1
 M=(1-delta)*mu1+delta*mu2/mu1
+}
+if(model==6)
+{
+mu=theta*S
+M=(1-delta)*2*mu*(1-mu)^(-1)+delta*(3*mu*(1-mu)^(-1)+1)
 }
 return(M=c(M))
 }
@@ -136,9 +141,9 @@ if(model==1 || model==4)
 {
 theta=exp(t(z)%*%beta)
 }
-if(model==2 || model==3 || model==5)
+if(model==2 || model==3 || model==5 || model==6)
 {
-theta=exp(t(z)%*%beta)/(1+exp(t(z)%*%beta))
+theta=plogis(t(z)%*%beta)
 }
 if(model==1)
 {
@@ -159,6 +164,10 @@ log.A=q*log(1+theta)
 if(model==5)
 {
 log.A=log(polyloga(theta,q))-log(theta)
+}
+if(model==6)
+{
+log.A=-2*log1p(-theta)
 }
 -sum(M*log(theta)-log.A)
 }
@@ -245,9 +254,9 @@ if(model==4)
 {
 theta=exp(t(z)%*%beta)
 }
-if(model==3 || model==5)
+if(model==3 || model==5 || model==6)
 {
-theta=exp(t(z)%*%beta)/(1+exp(t(z)%*%beta))
+theta=plogis(t(z)%*%beta)
 }
 if(model==3)
 {
@@ -269,6 +278,13 @@ mu=theta*S
 log.A=log(polyloga(theta,q))
 log.AS=log(polyloga(mu,q))
 log.fpop=-log(polyloga(theta,q))+log(polyloga(mu,q-1)-polyloga(mu,q))
+}
+if(model==6)
+{
+mu=theta*S
+log.A=-2*log1p(-theta)
+log.AS=-2*log1p(-mu)
+log.fpop=log(2)+2*log1p(-theta)+log(theta)+logf-3*log1p(-mu)
 }
 log.Spop=log.AS-log.A
 -sum(delta*log.fpop+(1-delta)*log.Spop)
@@ -325,9 +341,9 @@ if(model==1 || model==4)
 {
 theta=exp(t(z)%*%beta)
 }
-if(model==2 || model==3 || model==5)
+if(model==2 || model==3 || model==5 || model==6)
 {
-theta=exp(t(z)%*%beta)/(1+exp(t(z)%*%beta))
+theta=plogis(t(z)%*%beta)
 }
 if(model==1)
 {
@@ -364,6 +380,14 @@ log.A=log(polyloga(theta,q))+log(S)
 log.AS=log(polyloga(mu,q))
 logh=logf-log(S)
 log.fpop=logh-log(S)-log(polyloga(theta,q))+log(polyloga(mu,q-1)-polyloga(mu,q))
+}
+if(model==6)
+{
+mu=theta*S
+log.A=-2*log1p(-theta)
+log.AS=-2*log1p(-mu)
+logh=logf-log(S)
+log.fpop=log(2)+2*log1p(-theta)+log(theta)+logf-3*log1p(-mu)
 }
 log.Spop=log.AS-log.A
 -sum(delta*log.fpop+(1-delta)*log.Spop)

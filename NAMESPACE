@@ -1,5 +1,6 @@
 export("EM.PScr")
+export("rcura")
 importFrom("stats", "pnorm", "pgamma", "dgamma", "plnorm", "dlnorm", "qlogis", "uniroot","nlminb","plogis")
 importFrom("VGAM", "lerch","pbisa", "dbisa")
 importFrom("pracma", "hessian")
-importFrom("survival", "survfit")
+importFrom("survival", "survfit","Surv")

@@ -394,7 +394,7 @@ log.Spop=log.AS-log.A
 }
 polyloga<-function(theta,q)
 {
-theta*lerch(x=theta, s=q, v=1,tolerance = 1e-10,iter=100)
+  theta*lerch(x=theta, s=q, v=1,tolerance = 1e-6,iter=50) 
 }
 q=1
 r=min(dim(z))
@@ -416,21 +416,25 @@ if(model==3 || model==5)
 {
 q=psi[r+3]
 }
-maximo1=nlminb(beta,Q1,M=M,data=data,model=model,dist=dist,q=q)
+maximo1=nlminb(beta,Q1,M=M,data=data,model=model,dist=dist,q=q,
+               control=list(rel.tol=1e-6,iter.max=100,eval.max=200)) 
 beta=maximo1$par
 if(dist==2 || dist==5)
 {
-maximo2=nlminb(c(lambda[1],log(lambda[2])),Q2,M=M,data=data,model=model,dist=dist)
+  maximo2=nlminb(c(lambda[1],log(lambda[2])),Q2,M=M,data=data,model=model,dist=dist,
+                 control=list(rel.tol=1e-6,iter.max=100,eval.max=200)) 
 lambda=c(maximo2$par[1],exp(maximo2$par)[2])
 }
 if(dist==1 || dist==3 || dist==4)
 {
-maximo2=nlminb(log(lambda),Q2,M=M,data=data,model=model,dist=dist)
+  maximo2=nlminb(log(lambda),Q2,M=M,data=data,model=model,dist=dist,
+                 control=list(rel.tol=1e-6,iter.max=100,eval.max=200)) 
 lambda=exp(maximo2$par)
 }
 if((model==3  || model==5) && known==0)
 {
-maximo3=nlminb(log(q),Q3,data=data,model=model,dist=dist,psi=c(beta,lambda))
+  maximo3=nlminb(log(q),Q3,data=data,model=model,dist=dist,psi=c(beta,lambda),
+                 control=list(rel.tol=1e-6,iter.max=100,eval.max=200)) 
 q=exp(maximo3$par)
 }
 dif=-llikeobserved(c(beta,lambda,q),data,model,dist)+llikeobserved(psi,data,model,dist)
